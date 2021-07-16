@@ -18,8 +18,8 @@ const Blog = () => {
 
   return (
     <div className="blog">
-      <Header />
-      <Posts />
+      <Header categoriesData={categoriesData} />
+      <Posts postsData={postsData} />
       <Footer />
     </div>
   );

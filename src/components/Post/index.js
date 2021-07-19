@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 import './styles.scss';
 
@@ -8,10 +9,15 @@ const Post = ({
   category,
   title,
   excerpt,
+  modeZen,
 }) => {
   const idPost = `post-${id}`;
+  const cssClass = classNames(
+    'post',
+    { 'post-zen': modeZen },
+  );
   return (
-    <article className="post" id={idPost}>
+    <article className={cssClass} id={idPost}>
       <h2 className="post-title">{title}</h2>
       <div className="post-category">{category}</div>
       <p className="post-excerpt">{excerpt}</p>
@@ -24,6 +30,7 @@ Post.propTypes = {
   category: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   excerpt: PropTypes.string.isRequired,
+  modeZen: PropTypes.bool.isRequired,
 };
 
 export default Post;

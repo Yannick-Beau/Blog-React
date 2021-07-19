@@ -12,18 +12,38 @@ import postsData from 'src/data/posts';
 import './styles.scss';
 
 // == Composant
-const Blog = () => {
-  console.log(categoriesData);
-  console.log(postsData);
+class Blog extends React.Component {
+  constructor(props) {
+    super(props);
 
-  return (
-    <div className="blog">
-      <Header categoriesData={categoriesData} />
-      <Posts postsData={postsData} />
-      <Footer />
-    </div>
-  );
-};
+    this.state = {
+      modeZen: false,
+    };
+    this.changeTheme = this.changeTheme.bind(this);
+  }
+
+  changeTheme() {
+    const { modeZen } = this.state;
+    console.log('changement de theme');
+    this.setState({
+      modeZen: !modeZen,
+    });
+  }
+
+  render() {
+    console.log(categoriesData);
+    console.log(postsData);
+    const { modeZen } = this.state;
+
+    return (
+      <div className="blog">
+        <Header categoriesData={categoriesData} changeTheme={this.changeTheme} modeZen={modeZen} />
+        <Posts postsData={postsData} modeZen={modeZen} />
+        <Footer />
+      </div>
+    );
+  }
+}
 
 // == Export
 export default Blog;

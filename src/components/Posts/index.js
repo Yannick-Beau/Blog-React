@@ -5,13 +5,14 @@ import Post from 'src/components/Post';
 
 import './styles.scss';
 
-const Posts = ({ postsData }) => (
+const Posts = ({ postsData, modeZen }) => (
   <main className="posts">
     <h1 className="posts-title">Dev Of Thrones</h1>
     <div className="posts-list">
       {postsData.map((item) => (
         <Post
           {...item}
+          modeZen={modeZen}
           key={item.id}
         />
       ))}
@@ -29,6 +30,7 @@ Posts.propTypes = {
       excerpt: PropTypes.string.isRequired,
     }).isRequired, // obligatoire que les éléments aient cette forme
   ).isRequired,
+  modeZen: PropTypes.bool.isRequired,
 };
 
 export default Posts;

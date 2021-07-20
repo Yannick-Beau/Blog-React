@@ -36,11 +36,8 @@
     font-weight: 300;
     color: vars.$post-text-color;
   }
-
-  &-zen {
-    width: 100%;
-    font-size: 1.5em;
-  }
 }
 
-
+.posts--zen .post {
+  width: 100%;
+}

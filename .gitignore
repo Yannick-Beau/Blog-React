@@ -6,3 +6,5 @@ Thumbs.db
 
 yarn-error.log
 .env
+
+import-external-repo.sh

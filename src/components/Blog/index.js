@@ -1,5 +1,5 @@
 // == Import
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 // composant Route : permet de faire un affichage conditionnel en fonction de l'URL
 // de la barre d'adresse
 // comparaison "qui commence par" => si on a une Route avec path="/" en fait elle
@@ -24,7 +24,7 @@ import Footer from 'src/components/Footer';
 import NotFound from 'src/components/NotFound';
 
 // data, styles et utilitaires
-import categoriesData from 'src/data/categories';
+// import categoriesData from 'src/data/categories';
 import './styles.scss';
 import Spinner from '../Spinner';
 
@@ -70,7 +70,11 @@ const Blog = () => {
 
   const [loading, setLoading] = useState(false);
 
+  const [loadingPosts, setLoadingPosts] = useState(false);
+
   const [categories, setCategories] = useState([]);
+
+  const [error, setError] = useState(null);
 
   // obtenir les articles qui correspondent à une catégorie
   const getPostsByCategory = (category) => {
@@ -88,7 +92,7 @@ const Blog = () => {
   // charger les articles depuis l'API
   const loadPosts = () => {
     console.log('on va aller charger les articles');
-    setLoading(true);
+    setLoadingPosts(true);
     // envoyer une requête vers l'API
     Axios.get('https://oclock-open-apis.vercel.app/api/blog/posts')
       .then((response) => {
@@ -96,11 +100,11 @@ const Blog = () => {
         console.log(response);
         console.log(response.data);
         setPosts(response.data);
-        setLoading(false);
+        setLoadingPosts(false);
       })
-      .catch((error) => {
+      .catch((errorRequest) => {
         // handle error
-        console.log(error);
+        setError(errorRequest);
       })
       .then(() => {
         console.log('2eme then');
@@ -110,53 +114,63 @@ const Blog = () => {
     // devraient s'afficher
   };
 
-  const loadCategories = () => {
+  useEffect(() => {
     console.log('on va aller charger les categories');
-    setLoading(true);
     // envoyer une requête vers l'API
     Axios.get('https://oclock-open-apis.vercel.app/api/blog/categories')
       .then((response) => {
         // handle success
         console.log(response);
         console.log(response.data);
-        setPosts(response.data);
-        setLoading(false);
+        setCategories(response.data);
+        setLoading(true);
       })
-      .catch((error) => {
+      .catch((errorRequest) => {
         // handle error
-        console.log(error);
+        setLoading(true);
+        setError(errorRequest);
       })
       .then(() => {
         console.log('2eme then');
       });
-  };
+  }, []);
 
-  return (
-    <div className="blog">
-      <Header categories={categoriesData} isZenMode={zenMode} changeZenMode={setZenMode} />
-      <button
-        type="button"
-        onClick={() => {
-          loadPosts();
-        }}
-      >
-        Load posts
-      </button>
-      {loading && <Spinner />}
-      <Switch>
-        <Redirect from="/jquery" to="/autre" />
-        {categoriesData.map((category) => (
-          <Route path={category.route} exact key={category.label}>
-            <Posts posts={getPostsByCategory(category.label)} isZenMode={zenMode} />
+  if (error) {
+    <div>Erreur : {error.message}</div>;
+  }
+  else if (!loading) {
+    <Spinner />;
+  }
+  else {
+    return (
+      <div className="blog">
+        <Header categories={categories} isZenMode={zenMode} changeZenMode={setZenMode} />
+        <button
+          type="button"
+          onClick={() => {
+            loadPosts();
+          }}
+        >
+          Load posts
+        </button>
+        {loadingPosts && <Spinner />}
+        <Switch>
+          <Redirect from="/jquery" to="/autre" />
+          {categories.map((category) => (
+            <Route path={category.route} exact key={category.label}>
+              <Posts posts={getPostsByCategory(category.label)} isZenMode={zenMode} />
+            </Route>
+          ))}
+          <Route>
+            <NotFound />
           </Route>
-        ))}
-        <Route>
-          <NotFound />
-        </Route>
-      </Switch>
-
-      <Footer />
-    </div>
+        </Switch>
+        <Footer />
+      </div>
+    );
+  }
+  return (
+    <Spinner />
   );
 };
 

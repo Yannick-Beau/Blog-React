@@ -14,6 +14,9 @@ import React, { useState } from 'react';
 // page a été déplacée)
 import { Route, Switch, Redirect } from 'react-router-dom';
 
+// Composant axios : permet de faire des requets vers une API
+import Axios from 'axios';
+
 // Composants
 import Header from 'src/components/Header';
 import Posts from 'src/components/Posts';
@@ -23,6 +26,7 @@ import NotFound from 'src/components/NotFound';
 // data, styles et utilitaires
 import categoriesData from 'src/data/categories';
 import './styles.scss';
+import Spinner from '../Spinner';
 
 // un composant peut être écrit sous forme de fonction sauf si on veut certaines
 // fonctionnalités :
@@ -64,6 +68,10 @@ const Blog = () => {
   // initialement tableau vide
   const [posts, setPosts] = useState([]);
 
+  const [loading, setLoading] = useState(false);
+
+  const [categories, setCategories] = useState([]);
+
   // obtenir les articles qui correspondent à une catégorie
   const getPostsByCategory = (category) => {
     let results;
@@ -80,12 +88,47 @@ const Blog = () => {
   // charger les articles depuis l'API
   const loadPosts = () => {
     console.log('on va aller charger les articles');
-
+    setLoading(true);
     // envoyer une requête vers l'API
-
+    Axios.get('https://oclock-open-apis.vercel.app/api/blog/posts')
+      .then((response) => {
+        // handle success
+        console.log(response);
+        console.log(response.data);
+        setPosts(response.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        // handle error
+        console.log(error);
+      })
+      .then(() => {
+        console.log('2eme then');
+      });
     // attendre la réponse puis la traiter => trouver les articles dans la réponse,
     // et appeler setPosts en fournissant les articles : normalement les articles
     // devraient s'afficher
+  };
+
+  const loadCategories = () => {
+    console.log('on va aller charger les categories');
+    setLoading(true);
+    // envoyer une requête vers l'API
+    Axios.get('https://oclock-open-apis.vercel.app/api/blog/categories')
+      .then((response) => {
+        // handle success
+        console.log(response);
+        console.log(response.data);
+        setPosts(response.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        // handle error
+        console.log(error);
+      })
+      .then(() => {
+        console.log('2eme then');
+      });
   };
 
   return (
@@ -99,7 +142,7 @@ const Blog = () => {
       >
         Load posts
       </button>
-
+      {loading && <Spinner />}
       <Switch>
         <Redirect from="/jquery" to="/autre" />
         {categoriesData.map((category) => (

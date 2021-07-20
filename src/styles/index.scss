@@ -3,12 +3,17 @@
 
 body {
   font-family: sans-serif;
-  line-height: 1.6;
+  background: #2e5849;
 }
 
-h1,
-h2,
-h3 {
-  font-weight: 700;
-  line-height: 1.2;
-}
+/* 
+  // or you can import your own font
+  @font-face {
+    font-family: 'Roboto';
+    src: url('../assets/fonts/Roboto-Regular.ttf');
+  }
+
+  body {
+    font-family: 'Roboto', sans-serif;
+  }
+*/

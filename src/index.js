@@ -4,13 +4,13 @@ import { render } from 'react-dom';
 
 // == Import : local
 // Composants
-import Blog from 'src/components/Blog';
+import App from 'src/components/App';
 
 // == Render
-// 1. Le composant racine (celui qui contient l'ensemble de l'app)
-const rootComponent = <Blog />;
-
+// 1. Élément React racine (celui qui contient l'ensemble de l'app)
+//    => crée une structure d'objets imbriqués (DOM virtuel)
+const rootReactElement = <App />;
 // 2. La cible du DOM (là où la structure doit prendre vie dans le DOM)
 const target = document.getElementById('root');
-// Le rendu de React => DOM
-render(rootComponent, target);
+// 3. Déclenchement du rendu de React (virtuel) => DOM (page web)
+render(rootReactElement, target);

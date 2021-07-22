@@ -97,10 +97,7 @@ const Blog = () => {
     Axios.get('https://oclock-open-apis.vercel.app/api/blog/posts')
       .then((response) => {
         // handle success
-        console.log(response);
-        console.log(response.data);
         setPosts(response.data);
-        setLoadingPosts(false);
       })
       .catch((errorRequest) => {
         // handle error
@@ -108,6 +105,7 @@ const Blog = () => {
       })
       .then(() => {
         console.log('2eme then');
+        setLoadingPosts(false);
       });
     // attendre la réponse puis la traiter => trouver les articles dans la réponse,
     // et appeler setPosts en fournissant les articles : normalement les articles
@@ -116,6 +114,7 @@ const Blog = () => {
 
   useEffect(() => {
     console.log('on va aller charger les categories');
+    loadPosts();
     // envoyer une requête vers l'API
     Axios.get('https://oclock-open-apis.vercel.app/api/blog/categories')
       .then((response) => {
@@ -123,15 +122,14 @@ const Blog = () => {
         console.log(response);
         console.log(response.data);
         setCategories(response.data);
-        setLoading(true);
       })
       .catch((errorRequest) => {
         // handle error
-        setLoading(true);
         setError(errorRequest);
       })
       .then(() => {
         console.log('2eme then');
+        setLoading(true);
       });
   }, []);
 

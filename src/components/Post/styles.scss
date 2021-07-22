@@ -37,10 +37,15 @@
     color: vars.$post-text-color;
   }
 
-  &-zen {
-    width: 100%;
-    font-size: 1.5em;
+  em {
+    font-style: italic;
+  }
+
+  strong {
+    font-weight: bold;
   }
 }
 
-
+.posts--zen .post {
+  width: 100%;
+}

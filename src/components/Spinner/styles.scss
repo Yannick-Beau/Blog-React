@@ -5,17 +5,27 @@
   height: 50px;
   background-color: vars.$primary-color;
   margin: vars.$gutter auto;
-  animation: rotateplane 1.5s infinite ease-in-out;
+  // https://developer.mozilla.org/en-US/docs/Web/CSS/animation
+  // rotateplan : nom de l'animation
+  // 1.5s : durée de l'animation
+  // infinite : nombre de répétitions
+  // ease-in-out : déplacement non linéaire
+  // alternate-reverse : dans quel sens on fait repartir l'animation
+  animation: rotateplane 1.5s infinite alternate-reverse;
 }
 
+// les moments-clés de l'animation
 @keyframes rotateplane {
   0% {
-    transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+    // transform: perspective(120px) rotateX(0deg) rotateY(0deg);
+    background-color: blue;
   }
   50% {
-    transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
+    // transform: perspective(120px) rotateX(-180.1deg) rotateY(0deg);
+    background-color: yellow;
   }
   100% {
-    transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+    // transform: perspective(120px) rotateX(-180deg) rotateY(-179.9deg);
+    background-color: red;
   }
 }
